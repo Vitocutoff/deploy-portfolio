@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html
+  lang="it"
+>
+
+  <head>
+
+    <meta
+      charset="UTF-8"
+    />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+
+    <title>
+
+      Mauro Concentri Architetto — Offline
+
+    </title>
+
+    <style>
+      :root {
+        color-scheme: light dark;
+        --accent: #d32f2f; /* rosso accento */
+        --text: #111;
+        --bg-light: #fafafa;
+        --bg-gradient: linear-gradient(180deg, #ffffff 0%, #e9e9e9 100%);
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text);
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 1.5rem;
+        opacity: 0;
+        animation: fadeIn 1s ease forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        margin: 0 0 0.75rem;
+      }
+
+      p {
+        font-size: 1rem;
+        opacity: 0.75;
+        margin: 0 0 1.25rem;
+        line-height: 1.5;
+      }
+
+      .indicator {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--accent);
+        margin: 1.25rem auto;
+        animation: pulse 2.2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 0.85;
+        }
+        50% {
+          transform: scale(1.4);
+          opacity: 0.35;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 0.85;
+        }
+      }
+
+      a.retry {
+        display: inline-block;
+        padding: 0.6rem 1.5rem;
+        border-radius: 0.75rem;
+        background: var(--accent);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        transition: all 0.3s ease;
+      }
+
+      a.retry:hover {
+        background: #a32121;
+        transform: translateY(-1px);
+      }
+
+      small {
+        display: block;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        opacity: 0.65;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 0.75rem;
+        font-size: 0.8rem;
+        color: #444;
+        opacity: 0.4;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: radial-gradient(
+            circle at 30% 30%,
+            #1e1e1e 0%,
+            #0f0f0f 100%
+          );
+          color: #eee;
+        }
+        .retry {
+          background: var(--accent);
+        }
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <main>
+
+      <h1>
+
+        Sei offline
+
+      </h1>
+
+      <div
+        class="indicator"
+        aria-hidden="true"
+      ></div>
+
+      <p>
+
+        La connessione non è disponibile.<br />
+        Riconnetti il dispositivo per continuare la navigazione.
+
+      </p>
+
+      <a
+        href="/"
+        class="retry"
+        role="button"
+        aria-label="Torna alla Home"
+      >
+
+        Torna alla Home
+
+      </a>
+
+      <small>
+
+        Le sezioni già visitate (come <strong>Home</strong> e <strong>CV</strong>)
+        restano consultabili offline.
+
+      </small>
+
+    </main>
+
+    <footer>
+
+      Mauro Concentri | Architetto
+
+    </footer>
+
+  </body>
+
+</html>
