@@ -66,9 +66,15 @@ const nextConfig = {
 
   /** OTTIMIZZAZIONE IMMAGINI NEXT */
   images: {
+    qualities: [75, 90],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60,
-    domains: ["localhost", "mauroconcentriarchitetto.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "mauroconcentriarchitetto.com.com",
+      },
+    ],
   },
 
   /** SICUREZZA E PERFORMANCE */

@@ -9,8 +9,7 @@ import ScrollToTop from "@/components/ui/ScrollToTop";
 // METADATI COMPLETI (SEO + PWA)
 export const metadata = {
   title: "Mauro Concentri | Architetto",
-  description:
-    "Portfolio dell'architetto Mauro Concentri a Vicenza. Impianti sportivi, progetti contemporanei e design sostenibile.",
+  description: "Portfolio dell'architetto Mauro Concentri a Vicenza. Impianti sportivi, progetti contemporanei e design sostenibile.",
   metadataBase: new URL("https://www.mauroconcentriarchitetto.com"),
   robots: { index: true, follow: true },
   manifest: "/manifest.json",
@@ -19,8 +18,7 @@ export const metadata = {
   },
   openGraph: {
     title: "Mauro Concentri | Architetto",
-    description:
-      "Portfolio dell'architetto Mauro Concentri a Vicenza. Impianti sportivi, architettura contemporanea e design sostenibile.",
+    description: "Portfolio dell'architetto Mauro Concentri a Vicenza. Impianti sportivi, architettura contemporanea e design sostenibile.",
     url: "https://www.mauroconcentriarchitetto.com",
     siteName: "Mauro Concentri | Architetto",
     locale: "it_IT",
@@ -36,8 +34,24 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
+      {
+        url: "/favicon.ico",
+        type: "image/x-icon",
+      },
+      {
+        url: "/icons/icon-192x192.png",
+        type: "image/png"
+      },
+      {
+        url: "/icons/icon-512x512.png",
+        type: "image/png",
+      },
+      {
+        url: "/icons/icon-maskable-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any maskable",
+      },
     ],
     apple: [
       {
@@ -46,9 +60,20 @@ export const metadata = {
         type: "image/png",
       },
     ],
-    shortcut: ["/favicon.ico"],
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/icons/icon-192x192.png",
+        color: "#000000"
+      },
+    ],
   },
 };
+
+export const viewport = {
+  themeColor: "#ffffff",
+};
+
 
 export default function RootLayout({ children }) {
   return (
@@ -64,6 +89,42 @@ export default function RootLayout({ children }) {
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1"
+        />
+
+        <link
+          rel="manifest"
+          href="/manifest.json"
+        />
+
+        <meta
+          name="apple-mobile-web-app-capable"
+          content="yes"
+        />
+
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+
+        <meta
+          name="apple-mobile-web-app-title"
+          content="M. Concentri"
+        />
+
+        <meta
+          name="theme-color"
+          content="#ffffff"
+        />
+
+        <meta
+          name="background-color"
+          content="#000000"
+        />
+
+        <link
+          rel="mask-icon"
+          href="/icons/icon-192x192.png"
+          color="#000000"
         />
 
       </head>
