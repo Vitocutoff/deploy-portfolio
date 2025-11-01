@@ -75,3 +75,19 @@ html.lenis {
     scroll-behavior: auto !important;
   }
 }
+
+/* CORREZIONE ALTEZZA HERO SU TABLET/SAFARI */
+@supports (-webkit-touch-callout: none) {
+  .fix-vh {
+    height: -webkit-fill-available !important;
+    min-height: -webkit-fill-available !important;
+  }
+}
+
+/* FALLBACK PER I TABLET NON IOS */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .fix-vh {
+    min-height: 100vh;
+    height: 100vh;
+  }
+}

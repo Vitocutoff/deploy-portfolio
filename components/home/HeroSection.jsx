@@ -31,7 +31,7 @@ export default function HeroSection() {
       role="banner"
       aria-label="Sezione introduttiva Mauro Concentri Architetto"
       className="relative h-[90vh] lg:h-screen
-                 flex flex-col items-center
+                 fix-vh flex flex-col items-center
                  justify-center overflow-hidden"
     >
 

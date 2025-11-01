@@ -3,6 +3,7 @@
 import HeroSection from "@/components/home/HeroSection";
 import IntroSection from "@/components/home/IntroSection";
 import PreviewSection from "@/components/home/PreviewSection";
+import WorkInProgressSection from "@/components/home/WorkInProgress";
 
 export default function HomePage() {
   return (
@@ -28,7 +29,7 @@ export default function HomePage() {
       <PreviewSection />
 
       {/* WORK IN PROGRESS – progetti in corso */}
-
+      <WorkInProgressSection />
 
       {/* FINAL SECTION – chiusura con immagine di progetto */}
 
