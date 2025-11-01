@@ -1,9 +1,10 @@
 "use client";
 
+import FinalSection from "@/components/home/FinalSection";
 import HeroSection from "@/components/home/HeroSection";
 import IntroSection from "@/components/home/IntroSection";
 import PreviewSection from "@/components/home/PreviewSection";
-import WorkInProgressSection from "@/components/home/WorkInProgress";
+import WorkInProgressSection from "@/components/home/WorkInProgressSection";
 
 export default function HomePage() {
   return (
@@ -32,6 +33,7 @@ export default function HomePage() {
       <WorkInProgressSection />
 
       {/* FINAL SECTION – chiusura con immagine di progetto */}
+      <FinalSection />
 
     </main>
 

@@ -120,7 +120,7 @@ export default function WorkInProgressSection() {
               alt="Progetto architettonico in corso"
               width={1200}
               height={900}
-              className="object-cover w-full h-[300px]
+              className="object-cover w-full h-[350px]
                          sm:h-[400px] lg:h-full"
               loading="lazy"
               decoding="async"
