@@ -11,19 +11,47 @@
 // ↓ obbligatorio per usare hook e animazioni client-side
 "use client";
 
+// -------------------------------------------------------------------
+// 🔹 IMPORT COMPONENTI PRINCIPALI
+// -------------------------------------------------------------------
+// Ogni sezione è autonoma e incapsula layout, animazioni e contenuti.
+// In questo modo la Home resta leggibile e facile da gestire.
+// -------------------------------------------------------------------
+
 import FinalSection from "@/components/home/FinalSection";
 import HeroSection from "@/components/home/HeroSection";
 import IntroSection from "@/components/home/IntroSection";
 import PreviewSection from "@/components/home/PreviewSection";
 import WorkInProgressSection from "@/components/home/WorkInProgressSection";
 
+// ----------------------------------------------------------------------
+// 🔸 COMPONENTE HOMEPAGE
+// ----------------------------------------------------------------------
+// È il corpo principale della pagina di atterraggio.
+// L’uso di <main> con id e aria-label migliora la SEO e l’accessibilità.
+// Tutte le sezioni sono disposte in ordine verticale (mobile-first).
+// ----------------------------------------------------------------------
+
 export default function HomePage() {
   return (
+
+    // ---------------------------------------------------------------------------
+    // TAG <main>
+    // ---------------------------------------------------------------------------
+    // - id="main-content" → utile per il link “salta al contenuto” (accessibilità)
+    // - aria-label → descrizione per screen reader
+    // - flex-col → disposizione verticale delle sezioni
+    // - overflow-x-hidden → evita scrollbar orizzontali indesiderate
+    // - scroll-smooth → scroll fluido tra gli anchor link (es. “torna su”)
+    // - selection → colori personalizzati per testo selezionato
+    // ----------------------------------------------------------------------------
 
     <main
       id="main-content"
       aria-label="Contenuto principale della Home Page"
-      className="flex flex-col w-full
+      className="flex
+                 flex-col
+                 w-full
                  min-h-screen
                  overflow-x-hidden
                  scroll-smooth
@@ -31,19 +59,68 @@ export default function HomePage() {
                  selection:text-white"
     >
 
-      {/* HERO – sezione introduttiva */}
+      {/*
+
+        ---------------------------------------------------------
+        🏠 HERO SECTION
+        ---------------------------------------------------------
+        Sezione iniziale a schermo intero (100vh) con immagine di
+        sfondo, titolo e logo card animata. Presenta il sito.
+        ---------------------------------------------------------
+
+      */}
+
       <HeroSection />
 
-      {/* INTRO – citazione e bio */}
+      {/*
+
+          --------------------------------------------------------
+          👋 INTRO SECTION
+          --------------------------------------------------------
+          Contiene una breve introduzione testuale e una citazione.
+          È la prima sezione con sfondo chiaro, separa visivamente
+          la hero dalle anteprime dei progetti.
+          ---------------------------------------------------------
+
+      */}
+
       <IntroSection />
 
-      {/* PREVIEW – anteprima impianti sportivi */}
+      {/*
+
+          --------------------------------------------------------
+          ⚽ PREVIEW SECTION
+          --------------------------------------------------------
+          Sezione dedicata agli impianti sportivi: mostra quattro
+          card animate con effetto 3D e titolo laterale verticale.
+          --------------------------------------------------------
+
+      */}
+
       <PreviewSection />
 
-      {/* WORK IN PROGRESS – progetti in corso */}
+      {/*
+
+          ----------------------------------------------------------------
+          🏗️ WORK IN PROGRESS SECTION
+          ----------------------------------------------------------------
+          Mostra i progetti in corso con card evidenziata (3D + glow).
+          Passaggio cromatico chiaro → scuro per enfatizzare il contrasto.
+          ----------------------------------------------------------------
+
+      */}
+
       <WorkInProgressSection />
 
-      {/* FINAL SECTION – chiusura con immagine di progetto */}
+      {/*
+          -------------------------------------------------------------
+          📨 FINAL SECTION
+          -------------------------------------------------------------
+          Sezione conclusiva con immagine di sfondo, invito ai contatti
+          e pulsante “contattami”. Chiude il flusso visivo.
+          -------------------------------------------------------------
+      */}
+
       <FinalSection />
 
     </main>
@@ -51,3 +128,14 @@ export default function HomePage() {
   );
 
 }
+
+// =================================================================================
+// ✅ NOTE DI OTTIMIZZAZIONE
+// =================================================================================
+// - Il file è già ottimizzato e segue la logica “layout modulare” di Next.js.
+// - Non serve racchiudere le sezioni in ulteriori <div>: il <main> è sufficiente.
+// - Se si volesse aggiungere una transizione tra sezioni (es. fade o scroll snap),
+//   lo si può fare in questo file, ma conviene lasciarlo pulito come ora.
+// - Possibile miglioria: creare un file /lib/sections.js con un array ordinato
+//   dei componenti, da mappare dinamicamente (solo se il numero di sezioni cresce).
+// =================================================================================

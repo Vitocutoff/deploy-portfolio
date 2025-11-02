@@ -31,9 +31,7 @@ export default function RootLayout({ children }) {
     // TAG <html>
     // -----------------------------------------------------------------
     // - lang="it" → per SEO e screen reader
-    // -----------------------------------------------------------------
     // - scroll-smooth → abilita lo scroll fluido
-    // -----------------------------------------------------------------
     // - suppressHydrationWarning → evita errori di mismatch client/server
     // -----------------------------------------------------------------
 
@@ -44,12 +42,14 @@ export default function RootLayout({ children }) {
     >
 
       {/*
+
           ------------------------------------------------------------
           TAG <head>
           ------------------------------------------------------------
           Definisce i meta globali non gestiti da Next.js in automatico:
           - componente <HeadMeta />
           ------------------------------------------------------------
+
       */}
 
       <head>
@@ -59,19 +59,17 @@ export default function RootLayout({ children }) {
       </head>
 
       {/*
+
           --------------------------------------------------------------------------------
           TAG <body>
           --------------------------------------------------------------------------------
           - min-h-screen → assicura che il body occupi almeno l’intera altezza del viewport
-          ---------------------------------------------------------------------------------
           - bg-white → colore di sfondo principale del sito
-          ---------------------------------------------------------------------------------
           - text-neutral-900 → colore del testo principale (grigio scuro, non nero pieno)
-          ---------------------------------------------------------------------------------
           - antialiased → migliora la resa del testo su display ad alta risoluzione
-          ---------------------------------------------------------------------------------
           - selection → definisce i colori per l’evidenziazione del testo selezionato
           --------------------------------------------------------------------------------
+
       */}
 
       <body
@@ -84,43 +82,52 @@ export default function RootLayout({ children }) {
       >
 
         {/*
+
             ------------------------------------------------------------
             🌀 COMPONENTE <ScrollController />
             ------------------------------------------------------------
             Gestisce lo scroll fluido con Lenis.js. Previene micro scatti
             e migliora la sensazione di continuità nello scorrimento
             ------------------------------------------------------------
+
         */}
 
         <ScrollController />
 
         {/*
+
             --------------------------------------------------------------
             🍪 COMPONENTE <CookieBanner />
             --------------------------------------------------------------
             Mostra il banner di consenso cookie (GDPR) la prima volta che
             l’utente visita il sito, poi memorizza la scelta
             --------------------------------------------------------------
+
         */}
 
         <CookieBanner />
 
-        {/* ------------------------------------------
+        {/*
+
+            ------------------------------------------
             🧭 COMPONENTE <Header />
             ------------------------------------------
             HEADER fisso in alto con logo e navigazione
             ------------------------------------------
+
         */}
 
         <Header />
 
         {/*
+
            ---------------------------------------------------------------
            TAG <main>
            ---------------------------------------------------------------
-           - relative: permette di gestire posizionamenti assoluti interni
-           - z-10: assicura che i contenuti restino sopra eventuali layer
+           - relative → permette di gestire posizionamenti assoluti interni
+           - z-10 → assicura che i contenuti restino sopra eventuali layer
            ----------------------------------------------------------------
+
         */}
 
         <main
@@ -134,32 +141,38 @@ export default function RootLayout({ children }) {
         </main>
 
         {/*
+
             ---------------------------------------------------------------
             ⬆️ COMPONENTE <ScrollOnTop /> - PULSANTE "TORNA SU"
             ---------------------------------------------------------------
             Appare dopo uno scroll, riporta all’inizio con animazione dolce
             ---------------------------------------------------------------
+
         */}
 
         <ScrollToTop />
 
         {/*
+
             ---------------------------------------
             ⚫ COMPONENTE <Footer />
             ---------------------------------------
             Piè di pagina globale con contatti e social
             -------------------------------------------
+
         */}
 
         <Footer />
 
         {/*
+
             -------------------------------------------------------------------
             SCRIPT sw-register.js - SERVICE WORKER (PWA)
             -------------------------------------------------------------------
             Gestisce la registrazione del Service Worker per la modalità offline
             e le funzionalità da app (installazione su home screen, cache, ecc.)
             --------------------------------------------------------------------
+
         */}
 
         <script
@@ -168,11 +181,13 @@ export default function RootLayout({ children }) {
         ></script>
 
         {/*
+
             ----------------------------------------
             🚫 FALLBACK PER BROWSER SENZA JAVASCRIPT
             ----------------------------------------
             Mostra un messaggio se JS è disattivato
             ----------------------------------------
+
         */}
 
         <noscript>

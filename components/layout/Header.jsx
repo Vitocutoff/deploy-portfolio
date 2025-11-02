@@ -1,44 +1,125 @@
+// 📄 /components/layout/Header.jsx
+
+// =================================================================
+// COMPONENTE HEADER PRINCIPALE
+// =================================================================
+// - Logo animato (compare dopo uno scroll o se non si è nella home)
+// - Menu di navigazione (desktop + mobile responsive)
+// - Transizioni fluide con Framer Motion
+// =================================================================
+
+// ↓ Necessario per usare useState, useEffect, animazioni, ecc.
 "use client";
 
+// ---------------------------------------------------------------------------
+// 🔹 IMPORT PRINCIPALI
+// ---------------------------------------------------------------------------
+
+// ↓ Gestione stato ed effetti
 import { useState, useEffect, useCallback } from "react";
+
+// ↓ Animazioni fluide
 import { motion, useScroll } from "framer-motion";
+
+// ↓ Percorso corrente
 import { usePathname } from "next/navigation";
+
+// ↓ Navigazione lato client
 import Link from "next/link";
+
+// ↓ Componenti di menu (desktop e mobile)
 import DesktopMenu from "@/components/layout/DesktopMenu";
 import MobileMenu from "@/components/layout/MobileMenu";
+
+// ↓ Logo animato
+import LogoAnimated from "@/components/ui/LogoAnimated";
+
+// ↓ Font personalizzati dal file /lib/fonts.js
 import { fontCursive, fontMonoSpecial } from "@/lib/fonts";
 
+// -------------------------------
+// 🔸 COMPONENTE HEADER
+// -------------------------------
+
 export default function Header() {
+
+  // ---------------------------------------------
+  // 🔹 Stati e variabili
+  // ---------------------------------------------
+
+  // ↓ stato apertura menu mobile
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // ↓ posizione verticale scroll
   const { scrollY } = useScroll();
+
+  // ↓ visibilità logo animato
   const [showLogo, setShowLogo] = useState(false);
+
+  // ↓ percorso della pagina attiva
   const pathname = usePathname();
 
-  // FUNZIONI OTTIMIZZATE PER IL PASSAGGIO COME PROP
+  // --------------------------------------------------------------------
+  // 🧩 CALLBACKS OTTIMIZZATE
+  // --------------------------------------------------------------------
+  // useCallback impedisce la ricreazione delle funzioni ad ogni render
+  // migliorando le prestazioni e evitando inutili re-render.
+  // --------------------------------------------------------------------
+
   const toggleMenu = useCallback(() => setMenuOpen((prev) => !prev), []);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
-  // GERSTIONE VISIBILITA' LOGO
+  // ---------------------------------------------------------------------------
+  // 🧠 GESTIONE VISIBILITÀ DEL LOGO
+  // ---------------------------------------------------------------------------
+  // - Se non siamo sulla home, mostra il logo subito.
+  // - Se siamo sulla home, il logo compare solo dopo uno scroll > 40% viewport.
+  // ---------------------------------------------------------------------------
+
   useEffect(() => {
+
     if (pathname !== "/") {
-      // ESEGUE AGGIORNAMENTO SOLO DOPO IL PRIMO CICLO
+
+      // ↓ usa requestAnimationFrame per evitare warning di “setState sincrono”
       requestAnimationFrame(() => setShowLogo(true));
       return;
     }
 
+    // ↓ listener per lo scroll fluido
     const unsubscribe = scrollY.on("change", (latest) => {
       const trigger = window.innerHeight * 0.4;
       setShowLogo(latest > trigger);
     });
 
+    // ↓ cleanup
     return () => unsubscribe();
   }, [scrollY, pathname]);
 
+  // --------------------------------
+  // 🧱 RENDER COMPONENTE
+  // --------------------------------
+
   return (
 
+    // ------------------------------------------------------------------------------------------------------------------------------------
+    // TAG <header>
+    // ------------------------------------------------------------------------------------------------------------------------------------
+    // - ffixed top-0 left-0 → Posiziona l’header fisso in alto a sinistra dello schermo.
+    // - z-50 → Lo porta in primo piano rispetto ad altri elementi (importante per overlay e menu).
+    // - w-full → Occupa tutta la larghezza del viewport.
+    // - border-b border-white/10 → Aggiunge una sottile linea inferiore semitrasparente.
+    // - bg-linear-to-r from-white/80 via-white/70 to-white/80 → Sfondo con gradiente orizzontale bianco traslucido.
+    // - shadow-lg → Ombra leggera per staccare l’header dal contenuto.
+    // - supports-backdrop-filter:backdrop-saturate-200 → Migliora la saturazione del contenuto dietro il blur su browser che lo supportano.
+    // ------------------------------------------------------------------------------------------------------------------------------------
+
     <header
-      className="fixed top-0 left-0
-                 z-50 w-full border-b
+      className="fixed
+                 top-0
+                 left-0
+                 z-50
+                 w-full
+                 border-b
                  border-white/10
                  bg-linear-to-r
                  from-white/80
@@ -49,83 +130,66 @@ export default function Header() {
                  supports-backdrop-filter:backdrop-saturate-200"
     >
 
+      {/*
+
+        ----------------------------------------------------------------------
+        TAG <div> - Contenitore interno
+        ----------------------------------------------------------------------
+        - flex → Dispone gli elementi (logo e nav) orizzontalmente.
+        - max-w-7xl → Limita la larghezza massima a circa 1280px (responsive).
+        - items-center → Allinea verticalmente al centro.
+        - justify-between → Spinge logo e menu ai lati opposti.
+        - px-4 → Padding orizzontale di 1rem (16px).
+        - py-2 lg:py-3 → Padding verticale più ampio su schermi grandi.
+        - mx-auto → Centra orizzontalmente il blocco all’interno della pagina.
+        ----------------------------------------------------------------------
+
+      */}
+
       <div
-        className="flex max-w-7xl items-center
-                   justify-between px-4 py-2 lg:py-3
+        className="flex
+                   max-w-7xl
+                   items-center
+                   justify-between
+                   px-4
+                   py-2
+                   lg:py-3
                    mx-auto"
       >
 
-        {/* LOGO */}
-        <Link
-          href="/"
-          aria-label="Torna alla HomePage"
-          aria-current={pathname === "/" ? "page" : undefined}
-          className="flex items-center gap-2
-                     rounded focus:outline-none
-                     focus-visible:ring-2
-                     focus-visible:ring-black/80"
-        >
+        {/* LOGO ANIMATO */}
+        <LogoAnimated
+          showLogo={showLogo}
+        />
 
-          <motion.span
-            initial={{ opacity: 0, y: -20 }}
-            animate={showLogo ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-            transition={{
-              type: "spring",
-              stiffness: 120,
-              damping: 20,
-              mass: 0.6,
-            }}
-            className={`${fontCursive.className}
-                        text-3xl text-neutral-900`}
-          >
+        {/*
 
-            Mauro Concentri
+          ----------------------------------------------------------------------
+          TAG <nav> - Navigazione
+          ----------------------------------------------------------------------
+          - aria-label="Menu Principale" →
+          - flex items-center gap-4 → Layout orizzontale con spaziatura costante.
+          -----------------------------------------------------------------------
 
-          </motion.span>
+        */}
 
-          <motion.span
-            initial={{ opacity: 0, y: -20 }}
-            animate={showLogo ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-            transition={{
-              type: "spring",
-              stiffness: 120,
-              damping: 20,
-              mass: 0.6,
-              delay: 0.15,
-            }}
-            className="text-2xl font-thin text-red-600/85"
-            aria-hidden="true"
-          >
-
-            |
-
-          </motion.span>
-
-          <motion.span
-            initial={{ opacity: 0, y: -20 }}
-            animate={showLogo ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-            transition={{
-              type: "spring",
-              stiffness: 120,
-              damping: 20,
-              mass: 0.6,
-              delay: 0.3,
-            }}
-            className={`${fontMonoSpecial.className}
-                        tracking-widest text-blue-900/95`}
-          >
-
-            ARChitEttO
-
-          </motion.span>
-
-        </Link>
-
-        {/* NAVIGAZIONE */}
         <nav
           aria-label="Menu Principale"
           className="flex items-center gap-4"
         >
+
+          {/*
+
+            ---------------------------------------------------------------------------------------------------------
+            DESKTOP VS MOBILE
+            ---------------------------------------------------------------------------------------------------------
+            - hidden lg:block → Nasconde il menu desktop su mobile, mostra da breakpoint lg (≥1024px).
+            - <DesktopMenu key={pathname} /> →
+            - block lg:hidden → Inverso: mostra il menu mobile solo sotto lg.
+            - <MobileMenu isOpen={menuOpen} toggleMenu={toggleMenu} closeMenu={closeMenu} aria-expanded={menuOpen} →
+            ---------------------------------------------------------------------------------------------------------
+
+          */}
 
           <div
             className="hidden lg:block"
