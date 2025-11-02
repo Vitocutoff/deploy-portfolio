@@ -1,4 +1,15 @@
+// 📄 /app/layout.jsx
+
+// - LAYOUT PRINCIPALE DEL SITO
+// ===============================================================================
+// Struttura globale del sito realizzato con Nerxt.js (App Router) + Tailwind CSS.
+// Contiene header, footer, cookie banner, controllo dello scroll e script PWA.
+// Tutte le pagine vengono renderizzate qui.
+// ================================================================================
+
 import "./globals.css";
+import { siteMetadata as metadata, viewport } from "@/lib/metadata";
+import HeadMeta from "@/components/meta/HeadMeta";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -6,77 +17,25 @@ import CookieBanner from "@/components/layout/CookieBanner";
 import ScrollController from "@/components/layout/ScrollController";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 
-// METADATI COMPLETI (SEO + PWA)
-export const metadata = {
-  title: "Mauro Concentri | Architetto",
-  description: "Portfolio dell'architetto Mauro Concentri a Vicenza. Impianti sportivi, progetti contemporanei e design sostenibile.",
-  metadataBase: new URL("https://www.mauroconcentriarchitetto.com"),
-  robots: { index: true, follow: true },
-  manifest: "/manifest.json",
-  alternates: {
-    canonical: "https://www.mauroconcentriarchitetto.com",
-  },
-  openGraph: {
-    title: "Mauro Concentri | Architetto",
-    description: "Portfolio dell'architetto Mauro Concentri a Vicenza. Impianti sportivi, architettura contemporanea e design sostenibile.",
-    url: "https://www.mauroconcentriarchitetto.com",
-    siteName: "Mauro Concentri | Architetto",
-    locale: "it_IT",
-    type: "website",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Progetto architettonico dell'architetto Mauro Concentri",
-      },
-    ],
-  },
-  icons: {
-    icon: [
-      {
-        url: "/favicon.ico",
-        type: "image/x-icon",
-      },
-      {
-        url: "/icons/icon-192x192.png",
-        type: "image/png"
-      },
-      {
-        url: "/icons/icon-512x512.png",
-        type: "image/png",
-      },
-      {
-        url: "/icons/icon-maskable-512x512.png",
-        sizes: "512x512",
-        type: "image/png",
-        purpose: "any maskable",
-      },
-    ],
-    apple: [
-      {
-        url: "/icons/apple-touch-icon.png",
-        sizes: "180x180",
-        type: "image/png",
-      },
-    ],
-    other: [
-      {
-        rel: "mask-icon",
-        url: "/icons/icon-192x192.png",
-        color: "#000000"
-      },
-    ],
-  },
-};
-
-export const viewport = {
-  themeColor: "#ffffff",
-};
-
+// --------------------------------------------------------------------
+// COMPONENTE ROOTLAYOUT
+// --------------------------------------------------------------------
+// Avvolge tutte le pagine del sito e definisce struttura, accessibilità,
+// e componenti globali condivisi da ogni pagina (header, footer, ecc.)
+// ---------------------------------------------------------------------
 
 export default function RootLayout({ children }) {
   return (
+
+    // -----------------------------------------------------------------
+    // TAG <html>
+    // -----------------------------------------------------------------
+    // - lang="it" → per SEO e screen reader
+    // -----------------------------------------------------------------
+    // - scroll-smooth → abilita lo scroll fluido
+    // -----------------------------------------------------------------
+    // - suppressHydrationWarning → evita errori di mismatch client/server
+    // -----------------------------------------------------------------
 
     <html
       lang="it"
@@ -84,88 +43,138 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
 
+      {/*
+          ------------------------------------------------------------
+          TAG <head>
+          ------------------------------------------------------------
+          Definisce i meta globali non gestiti da Next.js in automatico:
+          - componente <HeadMeta />
+          ------------------------------------------------------------
+      */}
+
       <head>
 
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
-
-        <link
-          rel="manifest"
-          href="/manifest.json"
-        />
-
-        <meta
-          name="apple-mobile-web-app-capable"
-          content="yes"
-        />
-
-        <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
-        />
-
-        <meta
-          name="apple-mobile-web-app-title"
-          content="M. Concentri"
-        />
-
-        <meta
-          name="theme-color"
-          content="#ffffff"
-        />
-
-        <meta
-          name="background-color"
-          content="#000000"
-        />
-
-        <link
-          rel="mask-icon"
-          href="/icons/icon-192x192.png"
-          color="#000000"
-        />
+        <HeadMeta />
 
       </head>
 
+      {/*
+          --------------------------------------------------------------------------------
+          TAG <body>
+          --------------------------------------------------------------------------------
+          - min-h-screen → assicura che il body occupi almeno l’intera altezza del viewport
+          ---------------------------------------------------------------------------------
+          - bg-white → colore di sfondo principale del sito
+          ---------------------------------------------------------------------------------
+          - text-neutral-900 → colore del testo principale (grigio scuro, non nero pieno)
+          ---------------------------------------------------------------------------------
+          - antialiased → migliora la resa del testo su display ad alta risoluzione
+          ---------------------------------------------------------------------------------
+          - selection → definisce i colori per l’evidenziazione del testo selezionato
+          --------------------------------------------------------------------------------
+      */}
+
       <body
-        className="min-h-screen bg-white text-neutral-900
-                   antialiased selection:bg-black/90
+        className="min-h-screen
+                   bg-white
+                   text-neutral-900
+                   antialiased
+                   selection:bg-black/90
                    selection:text-white"
       >
 
-        {/* SCROLL FLUIDO */}
+        {/*
+            ------------------------------------------------------------
+            🌀 COMPONENTE <ScrollController />
+            ------------------------------------------------------------
+            Gestisce lo scroll fluido con Lenis.js. Previene micro scatti
+            e migliora la sensazione di continuità nello scorrimento
+            ------------------------------------------------------------
+        */}
+
         <ScrollController />
 
-        {/* COOKIE BANNER */}
+        {/*
+            --------------------------------------------------------------
+            🍪 COMPONENTE <CookieBanner />
+            --------------------------------------------------------------
+            Mostra il banner di consenso cookie (GDPR) la prima volta che
+            l’utente visita il sito, poi memorizza la scelta
+            --------------------------------------------------------------
+        */}
+
         <CookieBanner />
 
-        {/* HEADER FISSO */}
+        {/* ------------------------------------------
+            🧭 COMPONENTE <Header />
+            ------------------------------------------
+            HEADER fisso in alto con logo e navigazione
+            ------------------------------------------
+        */}
+
         <Header />
 
+        {/*
+           ---------------------------------------------------------------
+           TAG <main>
+           ---------------------------------------------------------------
+           - relative: permette di gestire posizionamenti assoluti interni
+           - z-10: assicura che i contenuti restino sopra eventuali layer
+           ----------------------------------------------------------------
+        */}
 
         <main
-          className="relative z-10"
+          className="relative
+                     z-10"
         >
 
+          {/* ↓ children = contenuto specifico di ogni pagina (page.jsx) */}
           {children}
 
         </main>
 
-        {/* PULSANTE "TORNA SU" */}
+        {/*
+            ---------------------------------------------------------------
+            ⬆️ COMPONENTE <ScrollOnTop /> - PULSANTE "TORNA SU"
+            ---------------------------------------------------------------
+            Appare dopo uno scroll, riporta all’inizio con animazione dolce
+            ---------------------------------------------------------------
+        */}
+
         <ScrollToTop />
 
-        {/* FOOTER GLOBALE */}
+        {/*
+            ---------------------------------------
+            ⚫ COMPONENTE <Footer />
+            ---------------------------------------
+            Piè di pagina globale con contatti e social
+            -------------------------------------------
+        */}
+
         <Footer />
 
-        {/* SERVICE WORKER PER PWA */}
+        {/*
+            -------------------------------------------------------------------
+            SCRIPT sw-register.js - SERVICE WORKER (PWA)
+            -------------------------------------------------------------------
+            Gestisce la registrazione del Service Worker per la modalità offline
+            e le funzionalità da app (installazione su home screen, cache, ecc.)
+            --------------------------------------------------------------------
+        */}
+
         <script
           src="/sw-register.js"
           defer
         ></script>
 
-        {/* FALLBACK PER JS DISABILITATO */}
+        {/*
+            ----------------------------------------
+            🚫 FALLBACK PER BROWSER SENZA JAVASCRIPT
+            ----------------------------------------
+            Mostra un messaggio se JS è disattivato
+            ----------------------------------------
+        */}
+
         <noscript>
 
           Il sito utilizza JavaScript per un’esperienza ottimale. Abilitalo per

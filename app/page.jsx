@@ -1,3 +1,14 @@
+// 📄 /app/page.jsx
+
+// ======================================================================
+// HOMEPAGE DEL SITO
+// ======================================================================
+// Struttura della pagina principale, composta da cinque sezioni modulari
+// (Hero, Intro, Preview, Work in Progress e Final). Ogni sezione è un
+// componente indipendente importato da /components/home.
+// ======================================================================
+
+// ↓ obbligatorio per usare hook e animazioni client-side
 "use client";
 
 import FinalSection from "@/components/home/FinalSection";
