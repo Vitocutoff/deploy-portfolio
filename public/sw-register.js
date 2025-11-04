@@ -1,21 +1,27 @@
-// ✅ Service Worker Registration Script
-// Questo file registra automaticamente il Service Worker della PWA
-// in modo sicuro, compatibile con Next.js e Vercel.
+// 🔁 REGISTRAZIONE DEL SERVICE WORKER (CLIENT SIDE)
+// ===================================================================
+// Registra /sw.js al caricamento del sito e gestisce aggiornamenti
+// ===================================================================
 
-// Evita errori in ambienti server-side
-if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-  window.addEventListener("load", async () => {
-    try {
-      const registration = await navigator.serviceWorker.register("/sw.js");
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((registration) => {
+        console.log("✅ Service Worker registrato:", registration.scope);
 
-      console.log("✅ Service Worker registrato:", registration.scope);
+        // 🔄 Controllo aggiornamenti
+        registration.addEventListener("updatefound", () => {
+          const newWorker = registration.installing;
+          if (!newWorker) return;
 
-      // Attende che il Service Worker sia attivo
-      await navigator.serviceWorker.ready;
-      console.log("PWA pronta all'uso offline!");
-
-    } catch (error) {
-      console.warn("❌ Errore nella registrazione del Service Worker:", error);
-    }
+          newWorker.addEventListener("statechange", () => {
+            if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+              console.log("🔁 Nuova versione disponibile. Aggiorna la pagina per applicarla.");
+            }
+          });
+        });
+      })
+      .catch((err) => console.error("❌ Errore registrazione SW:", err));
   });
 }

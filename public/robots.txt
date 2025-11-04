@@ -1,0 +1,31 @@
+# 🤖 robots.txt — Mauro Concentri Architetto
+# ===========================================================
+# Questo file comunica ai motori di ricerca cosa possono indicizzare
+# e cosa no. È ottimizzato per siti portfolio statici e PWA.
+# ===========================================================
+
+# Permette a tutti i motori di ricerca di accedere al sito
+User-agent: *
+
+# Consenti la scansione di tutte le pagine
+Allow: /
+
+# Escludi cartelle tecniche di Next.js, build e cache
+Disallow: /_next/
+Disallow: /__next_static/
+Disallow: /__next_data/
+Disallow: /api/
+Disallow: /static/
+Disallow: /server/
+Disallow: /build/
+Disallow: /vercel/
+
+# Sitemap ufficiale del sito (da generare o linkare manualmente)
+Sitemap: https://www.mauroconcentriarchitetto.com/sitemap.xml
+
+# Impedisce ai bot di creare snippet o traduzioni automatiche indesiderate
+Noindex: /offline.html
+Noindex: /manifest.json
+
+# Informazioni di contatto (non obbligatorio ma utile per Google)
+Host: https://www.mauroconcentriarchitetto.com

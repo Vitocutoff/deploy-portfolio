@@ -1,17 +1,56 @@
+// 📄 /components/layout/DesktopMenu.jsx
+
+// ============================================================================
+// MENU DI NAVIGAZIONE DESKTOP
+// ============================================================================
+// - Versione principale del menu, visibile su schermi ≥ 1024px (breakpoint lg)
+// - Include animazioni fluide all’entrata e “bounce” leggero delle lettere
+// - Evidenzia la pagina corrente e gestisce hover individuali
+// ============================================================================
+
+// ↓ Necessario per hook e animazioni (eseguite lato client)
 "use client";
 
+// -----------------------------------------------------------------
+// 🔹 IMPORT PRINCIPALI
+// -----------------------------------------------------------------
+
+// ↓ Voci di navigazione
+import { menuItems } from "@/data/menuItems";
+
+// ↓ Gestisce effetti collaterali
 import { useEffect } from "react";
+
+// ↓ Controlli avanzati per animazioni
 import { motion, useAnimationControls } from "framer-motion";
+
+// ↓ Navigazione lato client
 import Link from "next/link";
+
+// ↓ Individua la pagina attiva
 import { usePathname } from "next/navigation";
+
+// ↓ Font personalizzato
 import { fontNav } from "@/lib/fonts";
 
-/** MENU DI NAVIGAZIONE PRINCIPALE - VERSIONE DESKTOP */
+// -----------------------------------------------
+// 🔸 COMPONENTE DESKTOPMENU - Navigazione desktop
+// -----------------------------------------------
+
 export default function DesktopMenu() {
+
+  // ↓ Restituisce il percorso attuale (es. "/home")
   const pathname = usePathname();
+
+  // ↓ Controlla lo stato globale delle animazioni
   const controls = useAnimationControls();
 
-  // RIAVVIA ANIMAZIONE AD OGNI CAMBIO PAGINA
+  // -----------------------------------------------------------------
+  // 🔁 REPLAY ANIMAZIONE AD OGNI CAMBIO PAGINA
+  // -----------------------------------------------------------------
+  // Quando l’utente cambia sezione, riavvia l’animazione di entrata.
+  // -----------------------------------------------------------------
+
   useEffect(() => {
     const run = async () => {
       await controls.start("hidden");
@@ -19,15 +58,6 @@ export default function DesktopMenu() {
     };
     run();
   }, [pathname, controls]);
-
-  const menuItems = [
-    { href: "/", label: "Home" },
-    { href: "/cv", label: "CV" },
-    { href: "/impianti-sportivi", label: "Impianti Sportivi" },
-    { href: "/elenco-progetti", label: "Elenco Progetti" },
-    { href: "/work-in-progress", label: "Work in Progress" },
-    { href: "/contatti", label: "Contatti" },
-  ];
 
   const linkClass = (path) =>
     `transition-colors duration-300 ease-in-out focus-visible:ring-2 focus-visible:ring-black/70 px-1 rounded-sm

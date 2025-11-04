@@ -128,14 +128,3 @@ export default function HomePage() {
   );
 
 }
-
-// =================================================================================
-// ✅ NOTE DI OTTIMIZZAZIONE
-// =================================================================================
-// - Il file è già ottimizzato e segue la logica “layout modulare” di Next.js.
-// - Non serve racchiudere le sezioni in ulteriori <div>: il <main> è sufficiente.
-// - Se si volesse aggiungere una transizione tra sezioni (es. fade o scroll snap),
-//   lo si può fare in questo file, ma conviene lasciarlo pulito come ora.
-// - Possibile miglioria: creare un file /lib/sections.js con un array ordinato
-//   dei componenti, da mappare dinamicamente (solo se il numero di sezioni cresce).
-// =================================================================================

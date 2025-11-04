@@ -223,3 +223,20 @@ export default function Header() {
   );
 
 }
+
+// ============================================================================
+// ✅ NOTE DI OTTIMIZZAZIONE / BEST PRACTICE
+// ============================================================================
+// 🔹 3️⃣ I valori numerici di `stiffness`, `damping` e `mass` sono perfetti.
+//     Se un domani volessi cambiare fluidità:
+//     - stiffness ↑ → animazione più “rigida”
+//     - damping ↓ → più oscillazione (“rimbalzo”)
+//     - mass ↑ → movimento più lento
+//
+// 🔹 4️⃣ Il `useCallback` qui è una vera best practice: evita re-render
+//     inutili nei figli (`MobileMenu` e `DesktopMenu`).
+//
+// 🔹 5️⃣ Per migliorare ancora la performance, potresti caricare `framer-motion`
+//     in modo dinamico con `next/dynamic()` solo in questo componente.
+//
+// ============================================================================

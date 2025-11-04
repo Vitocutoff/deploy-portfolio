@@ -1,22 +1,31 @@
+// 📄 next.config.mjs
+// ============================================================================
+// Configurazione principale di Next.js con supporto PWA, ottimizzazione immagini
+// e parametri di performance per il deploy.
+// ============================================================================
+
 import withPWAInit from "next-pwa";
 
+// -----------------------------------------------------------------------------
+// 🔹 CONFIGURAZIONE PWA (Next-PWA 5.6+ compatibile con Next.js 15/16)
+// -----------------------------------------------------------------------------
 const withPWA = withPWAInit({
   dest: "public",
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === "development",
+  disable: process.env.NODE_ENV === "development", // disattiva in dev
 
-  /** PRE-CACHE DELLE PAGINE PRINCIPALI */
+  /** Pagine precaricate */
   precachePages: ["/", "/cv"],
 
-  /** PAGINA DI FALLBACK OFFLINE */
+  /** Pagina di fallback offline */
   fallbacks: {
     document: "/offline.html",
   },
 
-  /** STRATEGIE DI CACHING OTTIMAZZATE */
+  /** Strategie di caching (Workbox) */
   runtimeCaching: [
-    // GOOGLE FONTS
+    // Google Fonts
     {
       urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
       handler: "CacheFirst",
@@ -26,7 +35,7 @@ const withPWA = withPWAInit({
         cacheableResponse: { statuses: [0, 200] },
       },
     },
-    // IMMAGINI E ICONE
+    // Immagini e icone
     {
       urlPattern: /\.(?:png|jpg|jpeg|svg|gif|ico|webp|avif)$/i,
       handler: "CacheFirst",
@@ -35,7 +44,7 @@ const withPWA = withPWAInit({
         expiration: { maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 30 },
       },
     },
-    // FILE STATICI JS/CSS/FONT
+    // Risorse statiche JS / CSS / font
     {
       urlPattern: /\.(?:js|css|woff2?|ttf|otf)$/i,
       handler: "StaleWhileRevalidate",
@@ -44,7 +53,7 @@ const withPWA = withPWAInit({
         expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 30 },
       },
     },
-    // PAGINE HTML
+    // Pagine HTML (fallback offline)
     {
       urlPattern: ({ request }) => request.mode === "navigate",
       handler: "NetworkFirst",
@@ -58,28 +67,27 @@ const withPWA = withPWAInit({
   ],
 });
 
+// -----------------------------------------------------------------------------
+// ⚙️ CONFIGURAZIONE BASE NEXT.JS
+// -----------------------------------------------------------------------------
 const nextConfig = {
   reactStrictMode: true,
-
-  /** MIGLIOR UX SU NAVIGAZIONE MULTIPAGINA */
+  poweredByHeader: false, // rimuove header “x-powered-by”
+  compress: true, // abilita gzip/brotli
   experimental: { scrollRestoration: true },
 
-  /** OTTIMIZZAZIONE IMMAGINI NEXT */
+  // ✅ Ottimizzazione immagini aggiornata per Next 15/16
   images: {
-    qualities: [75, 90],
-    formats: ["image/avif", "image/webp"],
-    minimumCacheTTL: 60,
+    formats: ["image/avif", "image/webp"], // formati moderni
+    minimumCacheTTL: 60, // cache base 60s
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "mauroconcentriarchitetto.com.com",
+        hostname: "www.mauroconcentriarchitetto.com",
       },
     ],
   },
-
-  /** SICUREZZA E PERFORMANCE */
-  poweredByHeader: false,
-  compress: true,
 };
 
+// ✅ Esporta config con supporto PWA
 export default withPWA(nextConfig);
