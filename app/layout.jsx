@@ -1,14 +1,24 @@
 // 📄 /app/layout.jsx
 
-// - LAYOUT PRINCIPALE DEL SITO
-// ===============================================================================
-// Struttura globale del sito realizzato con Nerxt.js (App Router) + Tailwind CSS.
-// Contiene header, footer, cookie banner, controllo dello scroll e script PWA.
-// Tutte le pagine vengono renderizzate qui.
-// ================================================================================
+// ==================================================================
+// 🔹 LAYOUT PRINCIPALE DELL’APPLICAZIONE NEXT.JS (App Router)
+// ==================================================================
+//
+// Contiene tutti i componenti e le configurazioni globali:
+//
+// - Header (menu principale e logo)
+// - Footer (contatti, social e crediti)
+// - CookieBanner (consenso GDPR)
+// - ScrollController (scroll fluido con Lenis)
+// - ScrollToTop (pulsante di ritorno all’inizio)
+// - Script per PWA (service worker)
+//
+// ==================================================================
+// Tutte le pagine vengono renderizzate all’interno di questo layout.
+// ==================================================================
 
 import "./globals.css";
-import { siteMetadata as metadata, viewport } from "@/lib/metadata";
+import { siteMetadata, viewport } from "@/lib/metadata";
 import HeadMeta from "@/components/meta/HeadMeta";
 
 import Header from "@/components/layout/Header";
@@ -17,23 +27,45 @@ import CookieBanner from "@/components/layout/CookieBanner";
 import ScrollController from "@/components/layout/ScrollController";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 
-// --------------------------------------------------------------------
-// COMPONENTE ROOTLAYOUT
-// --------------------------------------------------------------------
-// Avvolge tutte le pagine del sito e definisce struttura, accessibilità,
-// e componenti globali condivisi da ogni pagina (header, footer, ecc.)
-// ---------------------------------------------------------------------
+// =========================================================================
+// 🔸 METADATI GLOBALI
+// =========================================================================
+//
+// Next.js utilizza `export const metadata` e `export const viewport`
+// per generare automaticamente i tag <title>, <meta>, <link>, ecc.
+// Non serve inserirli manualmente nell’head: vengono gestiti dal framework.
+//
+// =========================================================================
+
+export const metadata = siteMetadata;
+export { viewport };
+
+// =====================================================================
+// 🔸 COMPONENTE ROOTLAYOUT
+// =====================================================================
+//
+// Avvolge ogni pagina del sito e definisce:
+//
+// - struttura semantica
+// - accessibilità
+// - gestione globale di header, footer e script PWA
+//
+// =====================================================================
+// Tutti i children (le singole pagine) vengono renderizzati qui dentro.
+// =====================================================================
 
 export default function RootLayout({ children }) {
   return (
 
-    // -----------------------------------------------------------------
+    // ==============================================================
     // TAG <html>
-    // -----------------------------------------------------------------
-    // - lang="it" → per SEO e screen reader
-    // - scroll-smooth → abilita lo scroll fluido
-    // - suppressHydrationWarning → evita errori di mismatch client/server
-    // -----------------------------------------------------------------
+    // ==============================================================
+    //
+    // lang="it" → lingua per SEO e screen reader
+    // scroll-smooth → abilita lo scroll fluido nativo
+    // suppressHydrationWarning → evita mismatch client/server in SSR
+    //
+    // ==============================================================
 
     <html
       lang="it"
@@ -43,12 +75,14 @@ export default function RootLayout({ children }) {
 
       {/*
 
-          ------------------------------------------------------------
-          TAG <head>
-          ------------------------------------------------------------
-          Definisce i meta globali non gestiti da Next.js in automatico:
-          - componente <HeadMeta />
-          ------------------------------------------------------------
+          ====================================================
+          HEAD PERSONALIZZATO
+          ====================================================
+
+          Contiene meta tag aggiuntivi non gestiti da Next.js,
+          come configurazioni PWA, Apple e Safari.
+
+          ====================================================
 
       */}
 
@@ -60,15 +94,22 @@ export default function RootLayout({ children }) {
 
       {/*
 
-          --------------------------------------------------------------------------------
+          ============================================================
           TAG <body>
-          --------------------------------------------------------------------------------
-          - min-h-screen → assicura che il body occupi almeno l’intera altezza del viewport
-          - bg-white → colore di sfondo principale del sito
-          - text-neutral-900 → colore del testo principale (grigio scuro, non nero pieno)
-          - antialiased → migliora la resa del testo su display ad alta risoluzione
-          - selection → definisce i colori per l’evidenziazione del testo selezionato
-          --------------------------------------------------------------------------------
+          ============================================================
+
+          Imposta il background, la tipografia e i colori di selezione.
+
+          className Tailwind:
+
+          - min-h-screen → assicura altezza minima pari al viewport
+          - bg-white → sfondo principale chiaro (mai bianco pieno)
+          - text-neutral-900 → testo neutro scuro, contrasto ottimale
+          - antialiased → migliora la resa dei font su display HD
+          - selection:bg-black/90 + selection:text-white → colore
+            personalizzato dell’evidenziazione testo
+
+          =========================================================
 
       */}
 
@@ -121,12 +162,15 @@ export default function RootLayout({ children }) {
 
         {/*
 
-           ---------------------------------------------------------------
-           TAG <main>
-           ---------------------------------------------------------------
+           ===============================================================
+           MAIN CONTENT AREA - TAG <main>
+           ===============================================================
+           Contiene il contenuto della pagina corrente:
+
            - relative → permette di gestire posizionamenti assoluti interni
            - z-10 → assicura che i contenuti restino sopra eventuali layer
-           ----------------------------------------------------------------
+
+           ================================================================
 
         */}
 
@@ -135,18 +179,19 @@ export default function RootLayout({ children }) {
                      z-10"
         >
 
-          {/* ↓ children = contenuto specifico di ogni pagina (page.jsx) */}
           {children}
 
         </main>
 
         {/*
 
-            ---------------------------------------------------------------
+            ===============================================================
             ⬆️ COMPONENTE <ScrollOnTop /> - PULSANTE "TORNA SU"
-            ---------------------------------------------------------------
+            ===============================================================
+
             Appare dopo uno scroll, riporta all’inizio con animazione dolce
-            ---------------------------------------------------------------
+
+            ===============================================================
 
         */}
 
@@ -154,11 +199,13 @@ export default function RootLayout({ children }) {
 
         {/*
 
-            ---------------------------------------
+            ===========================================
             ⚫ COMPONENTE <Footer />
-            ---------------------------------------
+            ===========================================
+
             Piè di pagina globale con contatti e social
-            -------------------------------------------
+
+            ============================================
 
         */}
 
@@ -166,12 +213,15 @@ export default function RootLayout({ children }) {
 
         {/*
 
-            -------------------------------------------------------------------
-            SCRIPT sw-register.js - SERVICE WORKER (PWA)
-            -------------------------------------------------------------------
-            Gestisce la registrazione del Service Worker per la modalità offline
-            e le funzionalità da app (installazione su home screen, cache, ecc.)
-            --------------------------------------------------------------------
+            =============================================================
+            SERVICE WORKER (PWA) - SCRIPT sw.register.js
+            =============================================================
+
+            Script che registra il Service Worker per la modalità offline,
+            caching dinamico e installazione su home screen.
+            Viene eseguito in background (defer).
+
+            ======================================================
 
         */}
 
@@ -182,11 +232,13 @@ export default function RootLayout({ children }) {
 
         {/*
 
-            ----------------------------------------
-            🚫 FALLBACK PER BROWSER SENZA JAVASCRIPT
-            ----------------------------------------
+            ==================================================
+            🚫  NOSCRIPT FALLBACK PER BROWSER SENZA JAVASCRIPT
+            ==================================================
+
             Mostra un messaggio se JS è disattivato
-            ----------------------------------------
+
+            ===================================================
 
         */}
 
