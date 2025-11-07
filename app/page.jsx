@@ -8,7 +8,7 @@
 // componente indipendente importato da /components/home.
 // ======================================================================
 
-// ↓ obbligatorio per usare hook e animazioni client-side
+// Obbligatorio per usare hook e animazioni client-side
 "use client";
 
 // -------------------------------------------------------------------

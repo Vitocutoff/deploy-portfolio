@@ -103,6 +103,11 @@ export default function HeadMeta() {
       */}
 
       <link
+        rel="apple-touch-icon"
+        href="/apple-touch-icon.png"
+      />
+
+      <link
         rel="mask-icon"
         href="/icons/icon-192x192.png"
         color="#000000"
